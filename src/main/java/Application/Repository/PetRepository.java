@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+//import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
  * mapping queries to your ORM entities, but is also vendor-agnostic - meaning that your JPQL query does not change
  * between, for example, using an actual PostgresSQL, Oracle, or MySQL database.
  */
+//@Repository
 public interface PetRepository extends JpaRepository<Pet, Long> {
     /**
      * This query is written in Spring Data's query language providing - JPQL, or Java Persistence Query Language.
@@ -54,23 +56,23 @@ public interface PetRepository extends JpaRepository<Pet, Long> {
      * to initially compile.
      * @param species
      */
-    @Query("FROM Pet")
-    List<Pet> lab1(@Param("species") String species);
+    @Query("FROM Pet WHERE species = :speciesVar")
+    List<Pet> lab1(@Param("speciesVar") String species);
 
     /**
      * TODO: Retrieve all pets by either their name OR their age.
      * Replace 'FROM Pet' with the necessary query and add Param annotations. 'FROM Pet' is present to allow the app
      * to initially compile.
      */
-    @Query("FROM Pet")
-    List<Pet> lab2(@Param("name") String name, @Param("age") int age);
+    @Query("FROM Pet WHERE name = :nameVar OR age = :ageVar")
+    List<Pet> lab2(@Param("nameVar") String name, @Param("ageVar") int age);
 
     /**
      * TODO: Retrieve the AVERAGE age of all pets.
      * Replace 'FROM Pet' with the necessary query and add Param annotations. 'FROM Pet' is present to allow the app
      * to initially compile.
      */
-    @Query("FROM Pet")
+    @Query("SELECT AVG(age) FROM Pet")
     double lab3();
 
 }
